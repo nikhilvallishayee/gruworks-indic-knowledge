@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanskrit Intelligence — GruWorks</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+  /* ═══════════ GRUWORKS THEME ═══════════ */
+  :root {
+    /* Greens — from gruworks.com */
+    --forest-deep: #1D2A1A;
+    --forest-dark: #222A29;
+    --forest-mid: #2D3B29;
+    --forest-text: #3D4F39;
+    --forest-accent: #33512D;
+
+    /* Gold — CTA / accent */
+    --gold: #FFD45A;
+    --gold-dim: #C8A63E;
+    --gold-glow: rgba(255, 212, 90, 0.12);
+    --gold-glow-strong: rgba(255, 212, 90, 0.25);
+
+    /* Neutrals */
+    --white: #FDFFFD;
+    --cream: #F5F3EE;
+    --sage: #D7DBD6;
+    --sage-dim: #AEB5AD;
+    --sage-dark: #6B766A;
+
+    /* Functional */
+    --blue-link: #324158;
+    --teal: #4A8C6A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', 'Avenir', -apple-system, Helvetica, Arial, sans-serif;
+    background: var(--forest-deep);
+    color: var(--sage);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══════════ SLIDE CONTAINER ═══════════ */
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide--light {
+    background: var(--white);
+    color: var(--forest-text);
+  }
+
+  .slide--dark {
+    background: var(--forest-deep);
+    color: var(--sage);
+  }
+
+  .slide--mid {
+    background: var(--forest-dark);
+    color: var(--sage);
+  }
+
+  .slide-inner {
+    max-width: 1100px;
+    width: 100%;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* ═══════════ TYPOGRAPHY ═══════════ */
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 4.2rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .slide--dark h1, .slide--mid h1 { color: var(--white); }
+  .slide--light h1 { color: var(--forest-text); }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .slide--dark h2, .slide--mid h2 { color: var(--white); }
+  .slide--light h2 { color: var(--forest-text); }
+
+  h3 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  .slide--dark .subtitle { color: var(--sage-dim); }
+  .slide--light .subtitle { color: var(--sage-dark); }
+
+  .punchline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+    margin: 36px 0;
+    max-width: 640px;
+    line-height: 1.6;
+  }
+
+  .slide--light .punchline { color: var(--forest-accent); border-color: var(--gold-dim); }
+
+  /* ═══════════ STAT BLOCKS ═══════════ */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin: 40px 0 32px;
+  }
+
+  .stat-card {
+    background: var(--forest-mid);
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .stat-card:first-child { border-radius: 4px 0 0 4px; }
+  .stat-card:last-child { border-radius: 0 4px 4px 0; }
+
+  .stat-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-unit {
+    font-size: 0.85rem;
+    color: var(--gold-dim);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    color: var(--sage-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 8px;
+  }
+
+  /* ═══════════ GAP CARDS ═══════════ */
+  .gap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 24px 0;
+  }
+
+  .gap-card {
+    padding: 32px;
+    background: var(--forest-mid);
+  }
+
+  .gap-card:nth-child(1) { border-radius: 4px 0 0 0; }
+  .gap-card:nth-child(2) { border-radius: 0 4px 0 0; border-left: 3px solid var(--gold); }
+  .gap-card:nth-child(3) { border-radius: 0 0 0 4px; }
+  .gap-card:nth-child(4) { border-radius: 0 0 4px 0; }
+
+  .gap-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .gap-item:last-child { border-bottom: none; }
+
+  .gap-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .gap-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .gap-text--exists { color: var(--sage-dim); }
+  .gap-text--missing { color: var(--gold); font-weight: 500; }
+
+  /* ═══════════ LAYER ARCHITECTURE ═══════════ */
+  .layers {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .layer {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    background: var(--forest-deep);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .layer-sidebar {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .layer:nth-child(1) .layer-sidebar { background: rgba(255, 212, 90, 0.12); }
+  .layer:nth-child(2) .layer-sidebar { background: rgba(74, 140, 106, 0.12); }
+  .layer:nth-child(3) .layer-sidebar { background: rgba(50, 65, 88, 0.12); }
+
+  .layer-sidebar-text {
+    font-size: 0.65rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .layer:nth-child(1) .layer-sidebar-text { color: var(--gold); }
+  .layer:nth-child(2) .layer-sidebar-text { color: var(--teal); }
+  .layer:nth-child(3) .layer-sidebar-text { color: var(--sage-dim); }
+
+  .layer-body {
+    padding: 20px 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .layer-chip {
+    background: rgba(255,255,255,0.04);
+    border-radius: 3px;
+    padding: 10px 16px;
+  }
+
+  .layer-chip strong {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .layer-chip span {
+    font-size: 0.7rem;
+    color: var(--sage-dim);
+  }
+
+  /* ═══════════ PROFILE SECTION ═══════════ */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 32px;
+  }
+
+  .credential {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 22px;
+  }
+
+  .cred-line {
+    width: 20px;
+    height: 2px;
+    background: var(--gold);
+    margin-top: 10px;
+    flex-shrink: 0;
+  }
+
+  .cred-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .cred-text strong { color: var(--white); }
+
+  /* ═══════════ FLOW SVG ═══════════ */
+  .flow-container {
+    margin-top: 8px;
+  }
+
+  /* ═══════════ CTA SLIDE ═══════════ */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 36px 0;
+  }
+
+  .pillar {
+    background: var(--forest-mid);
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .pillar:first-child { border-radius: 4px 0 0 4px; }
+  .pillar:last-child { border-radius: 0 4px 4px 0; }
+
+  .pillar-icon { margin-bottom: 16px; }
+
+  .pillar-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .pillar-text {
+    font-size: 0.78rem;
+    color: var(--sage-dim);
+    line-height: 1.6;
+  }
+
+  .ask-box {
+    background: var(--forest-mid);
+    border-top: 3px solid var(--gold);
+    padding: 48px;
+    text-align: center;
+    margin-top: 32px;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .ask-box h2 {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+  }
+
+  .ask-box p {
+    font-size: 0.92rem;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.7;
+    color: var(--sage);
+  }
+
+  .ask-box strong { color: var(--gold); }
+
+  /* GRU-style CTA button */
+  .btn-gold {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--forest-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 0; /* GRU style: sharp corners */
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 28px;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-dim);
+    transform: translateY(-1px);
+  }
+
+  .contact-line {
+    margin-top: 20px;
+    font-size: 0.78rem;
+    color: var(--sage-dim);
+    letter-spacing: 0.5px;
+  }
+
+  /* ═══════════ BACKGROUND ELEMENTS ═══════════ */
+  .bg-svg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ═══════════ FOOTER BAR ═══════════ */
+  .slide-foot {
+    position: absolute;
+    bottom: 28px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .foot-brand {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .slide--light .foot-brand { color: rgba(0,0,0,0.15); }
+
+  .foot-page {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 1px;
+  }
+
+  .slide--light .foot-page { color: rgba(0,0,0,0.12); }
+
+  /* ═══════════ NAV DOTS ═══════════ */
+  .nav {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 100;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+  }
+
+  .dot.on {
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(255, 212, 90, 0.3);
+    width: 9px;
+    height: 9px;
+  }
+
+  .dot:hover { background: rgba(255, 212, 90, 0.4); }
+
+  /* ═══════════ SEPARATOR ═══════════ */
+  .sep {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .slide--light .sep { background: var(--forest-accent); }
+
+  /* ═══════════ ANIMATIONS ═══════════ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-inner > * {
+    animation: fadeUp 0.5s ease-out both;
+  }
+  .slide-inner > *:nth-child(2) { animation-delay: 0.08s; }
+  .slide-inner > *:nth-child(3) { animation-delay: 0.16s; }
+  .slide-inner > *:nth-child(4) { animation-delay: 0.24s; }
+  .slide-inner > *:nth-child(5) { animation-delay: 0.32s; }
+  .slide-inner > *:nth-child(6) { animation-delay: 0.40s; }
+
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (max-width: 900px) {
+    .slide { padding: 48px 28px; }
+    h1 { font-size: 2.6rem; }
+    h2 { font-size: 1.8rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stats .stat-card:first-child { border-radius: 4px 0 0 0; }
+    .stats .stat-card:nth-child(2) { border-radius: 0 4px 0 0; }
+    .stats .stat-card:nth-child(3) { border-radius: 0 0 0 4px; }
+    .stats .stat-card:last-child { border-radius: 0 0 4px 0; }
+    .gap-grid { grid-template-columns: 1fr; }
+    .gap-card { border-radius: 0 !important; border-left: none !important; }
+    .gap-card:first-child { border-radius: 4px 4px 0 0 !important; }
+    .gap-card:last-child { border-radius: 0 0 4px 4px !important; }
+    .profile-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pillars { grid-template-columns: 1fr; }
+    .pillar { border-radius: 0 !important; }
+    .pillar:first-child { border-radius: 4px 4px 0 0 !important; }
+    .pillar:last-child { border-radius: 0 0 4px 4px !important; }
+    .layer { grid-template-columns: 1fr; }
+    .layer-sidebar { padding: 12px 20px; justify-content: flex-start; }
+    .slide-foot { left: 28px; right: 28px; }
+    .nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation dots -->
+<nav class="nav" id="nav">
+  <button class="dot on" onclick="go(0)"></button>
+  <button class="dot" onclick="go(1)"></button>
+  <button class="dot" onclick="go(2)"></button>
+  <button class="dot" onclick="go(3)"></button>
+  <button class="dot" onclick="go(4)"></button>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     SLIDE 1 — TITLE
+     ═══════════════════════════════════════ -->
+<section class="slide slide--dark" id="s0">
+
+  <!-- Subtle yantra background -->
+  <div class="bg-svg" style="opacity: 0.035;">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="y" width="240" height="240" patternUnits="userSpaceOnUse">
+          <circle cx="120" cy="120" r="90" fill="none" stroke="#FFD45A" stroke-width="0.4"/>
+          <circle cx="120" cy="120" r="60" fill="none" stroke="#FFD45A" stroke-width="0.3"/>
+          <circle cx="120" cy="120" r="30" fill="none" stroke="#FFD45A" stroke-width="0.25"/>
+          <polygon points="120,40 185,150 55,150" fill="none" stroke="#FFD45A" stroke-width="0.35"/>
+          <polygon points="120,200 55,90 185,90" fill="none" stroke="#FFD45A" stroke-width="0.35"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#y)"/>
+    </svg>
+  </div>
+
+  <!-- Gold glow -->
+  <div class="bg-glow" style="width: 500px; height: 500px; top: 25%; right: -5%; background: radial-gradient(circle, rgba(255,212,90,0.06), transparent 70%);"></div>
+
+  <div class="slide-inner" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+
+    <!-- OM glyph -->
+    <svg width="56" height="56" viewBox="0 0 100 100" style="margin-bottom: 28px; opacity: 0.45;">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#FFD45A" stroke-width="0.8"/>
+      <text x="50" y="60" text-anchor="middle" font-family="serif" font-size="32" fill="#FFD45A" opacity="0.7">&#x0950;</text>
+    </svg>
+
+    <div class="label">Confidential &mdash; March 2026</div>
+
+    <h1 style="font-size: 5rem;">Sanskrit<br><em>Intelligence</em></h1>
+
+    <div class="sep" style="margin: 20px auto 28px;"></div>
+
+    <p class="subtitle" style="text-align: center;">
+      Making 10 million manuscripts <em style="color: var(--gold); font-style: italic;">alive</em> for the modern world
+    </p>
+
+    <p style="margin-top: 56px; font-size: 0.85rem; color: var(--sage-dim); letter-spacing: 0.5px;">
+      <strong style="color: var(--white); font-weight: 500;">Nikhil Vallishayee</strong>
+      &ensp;&bull;&ensp;
+      GruWorks
+    </p>
+  </div>
+
+  <div class="slide-foot">
+    <span class="foot-brand">GRU works. Know how.</span>
+    <span class="foot-page">1 &mdash; 5</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SLIDE 2 — THE OPPORTUNITY
+     ═══════════════════════════════════════ -->
+<section class="slide slide--mid" id="s1">
+
+  <div class="bg-glow" style="width: 600px; height: 600px; bottom: -20%; left: -10%; background: radial-gradient(circle, rgba(74,140,106,0.06), transparent 70%);"></div>
+
+  <div class="slide-inner">
+    <div class="label">The Opportunity</div>
+    <h2>Sanskrit's Untapped Intelligence</h2>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">10M</div>
+        <div class="stat-label">Manuscripts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">70<span class="stat-unit">%</span></div>
+        <div class="stat-label">In Sanskrit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">483<span class="stat-unit">Cr</span></div>
+        <div class="stat-label">Gyan Bharatam Mission</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Commercial AI Players</div>
+      </div>
+    </div>
+
+    <!-- Gap Grid -->
+    <div class="gap-grid">
+      <div class="gap-card">
+        <h3>What Exists</h3>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B766A" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          <span class="gap-text gap-text--exists">Scanned manuscripts (images, not searchable)</span>
+        </div>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B766A" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          <span class="gap-text gap-text--exists">Isolated NLP tools across 10+ institutions</span>
+        </div>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B766A" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          <span class="gap-text gap-text--exists">Academic databases (4.8M tagged words)</span>
+        </div>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B766A" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          <span class="gap-text gap-text--exists">Government funding (Rs. 483 Crore)</span>
+        </div>
+      </div>
+
+      <div class="gap-card">
+        <h3>What's Missing</h3>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD45A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#FFD45A"/></svg>
+          <span class="gap-text gap-text--missing">Sound-by-sound analysis engine</span>
+        </div>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD45A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#FFD45A"/></svg>
+          <span class="gap-text gap-text--missing">Unified padacheda + grammar verification</span>
+        </div>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD45A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#FFD45A"/></svg>
+          <span class="gap-text gap-text--missing">Contextual meaning vectors at scale</span>
+        </div>
+        <div class="gap-item">
+          <svg class="gap-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD45A" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#FFD45A"/></svg>
+          <span class="gap-text gap-text--missing">A commercial intelligence platform</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="punchline">
+      The corpus is being built. The funding is flowing. What's missing is the brain.
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span class="foot-brand">GRU works. Know how.</span>
+    <span class="foot-page">2 &mdash; 5</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SLIDE 3 — APPLICATIONS
+     ═══════════════════════════════════════ -->
+<section class="slide slide--dark" id="s2">
+
+  <div class="bg-glow" style="width: 500px; height: 500px; top: 5%; right: -15%; background: radial-gradient(circle, rgba(255,212,90,0.04), transparent 70%);"></div>
+
+  <div class="slide-inner">
+    <div class="label">The Applications</div>
+    <h2>From Corpus to Companion</h2>
+
+    <div class="layers">
+      <!-- Layer 1: Engine -->
+      <div class="layer">
+        <div class="layer-sidebar">
+          <div class="layer-sidebar-text">Core<br>Engine</div>
+        </div>
+        <div class="layer-body">
+          <div class="layer-chip">
+            <strong>Padacheda Engine</strong>
+            <span>Sound & word segmentation + grammar verification</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Context Vectors</strong>
+            <span>Meaning embeddings across entire literature</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Searchable Corpus</strong>
+            <span>Full-text search across all digitized texts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 2: Products -->
+      <div class="layer">
+        <div class="layer-sidebar">
+          <div class="layer-sidebar-text">Products</div>
+        </div>
+        <div class="layer-body">
+          <div class="layer-chip">
+            <strong>Searchable Companion</strong>
+            <span>Interactive word-by-word explorer</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Dharma Companion</strong>
+            <span>AI grounded in source texts</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Story Engine</strong>
+            <span>Puranic narrative generation</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Publishing Engine</strong>
+            <span>Automated book & HTML</span>
+          </div>
+          <div class="layer-chip">
+            <strong>API & Embeddings</strong>
+            <span>Intelligence-as-a-service</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 3: Institutional -->
+      <div class="layer">
+        <div class="layer-sidebar">
+          <div class="layer-sidebar-text">Institutional<br>Value</div>
+        </div>
+        <div class="layer-body">
+          <div class="layer-chip">
+            <strong>Manuscript Triage</strong>
+            <span>AI-assisted prioritization for Gyan Bharatam</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Cross-Tradition Engine</strong>
+            <span>Vedantic, Yogic, Dharmic referencing</span>
+          </div>
+          <div class="layer-chip">
+            <strong>Preservation Intel</strong>
+            <span>Rare textual lineage identification</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="punchline">
+      One engine. Many applications. The platform becomes what the institution needs.
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span class="foot-brand">GRU works. Know how.</span>
+    <span class="foot-page">3 &mdash; 5</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SLIDE 4 — WHO WE ARE
+     ═══════════════════════════════════════ -->
+<section class="slide slide--light" id="s3">
+
+  <div class="slide-inner">
+    <div class="label" style="color: var(--forest-accent);">Who We Are</div>
+    <h2>The Team & Approach</h2>
+
+    <div class="profile-grid">
+      <!-- Left: Credentials -->
+      <div>
+        <h3 style="color: var(--forest-accent); margin-bottom: 28px;">Nikhil Vallishayee &mdash; Founder</h3>
+
+        <div class="credential">
+          <div class="cred-line" style="background: var(--forest-accent);"></div>
+          <div class="cred-text" style="color: var(--forest-text);">
+            <strong style="color: var(--forest-deep);">15+ years</strong> in systems engineering, product management, and 0-to-1 building
+          </div>
+        </div>
+
+        <div class="credential">
+          <div class="cred-line" style="background: var(--forest-accent);"></div>
+          <div class="cred-text" style="color: var(--forest-text);">
+            <strong style="color: var(--forest-deep);">Swiggy</strong> &mdash; Designed the aSDE upskilling program: 150+ engineers from Tier II/III cities scaled to production
+          </div>
+        </div>
+
+        <div class="credential">
+          <div class="cred-line" style="background: var(--forest-accent);"></div>
+          <div class="cred-text" style="color: var(--forest-text);">
+            <strong style="color: var(--forest-deep);">ThoughtWorks, Vedantu, Navi</strong> &mdash; Deep tech product across India's top startups
+          </div>
+        </div>
+
+        <div class="credential">
+          <div class="cred-line" style="background: var(--forest-accent);"></div>
+          <div class="cred-text" style="color: var(--forest-text);">
+            <strong style="color: var(--forest-deep);">Current mission</strong> &mdash; AI systems grounded in Indic knowledge architecture (Brahmavidya)
+          </div>
+        </div>
+
+        <div class="credential">
+          <div class="cred-line" style="background: var(--forest-accent);"></div>
+          <div class="cred-text" style="color: var(--forest-text);">
+            <strong style="color: var(--forest-deep);">DPIIT-recognized</strong> AI startup with working intelligence infrastructure
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Approach (SVG flow) -->
+      <div class="flow-container">
+        <h3 style="color: var(--forest-accent); margin-bottom: 24px;">Our Approach</h3>
+
+        <svg viewBox="0 0 380 340" width="100%" style="max-width: 380px;">
+          <!-- Box 1: Corpus (Partners) -->
+          <rect x="90" y="10" width="200" height="80" rx="3" fill="#F5F3EE" stroke="#AEB5AD" stroke-width="1"/>
+          <text x="190" y="38" text-anchor="middle" fill="#6B766A" font-size="9" font-weight="700" letter-spacing="2" font-family="Inter, sans-serif">PARTNERS</text>
+          <text x="190" y="62" text-anchor="middle" fill="#3D4F39" font-size="14" font-weight="500" font-family="'Playfair Display', serif">Digitized Corpus</text>
+
+          <!-- Arrow 1 -->
+          <line x1="190" y1="90" x2="190" y2="120" stroke="#C8A63E" stroke-width="1.5"/>
+          <polygon points="184,118 190,128 196,118" fill="#C8A63E"/>
+
+          <!-- Box 2: Engine (Ours) — highlighted -->
+          <rect x="90" y="130" width="200" height="80" rx="3" fill="#FFFBE8" stroke="#FFD45A" stroke-width="2"/>
+          <text x="190" y="158" text-anchor="middle" fill="#C8A63E" font-size="9" font-weight="700" letter-spacing="2" font-family="Inter, sans-serif">OURS</text>
+          <text x="190" y="182" text-anchor="middle" fill="#3D4F39" font-size="14" font-weight="600" font-family="'Playfair Display', serif">Intelligence Engine</text>
+
+          <!-- Arrow 2 -->
+          <line x1="190" y1="210" x2="190" y2="240" stroke="#C8A63E" stroke-width="1.5"/>
+          <polygon points="184,238 190,248 196,238" fill="#C8A63E"/>
+
+          <!-- Box 3: Applications (Your Vision) -->
+          <rect x="90" y="250" width="200" height="80" rx="3" fill="#F5F3EE" stroke="#4A8C6A" stroke-width="1"/>
+          <text x="190" y="278" text-anchor="middle" fill="#4A8C6A" font-size="9" font-weight="700" letter-spacing="2" font-family="Inter, sans-serif">YOUR VISION</text>
+          <text x="190" y="302" text-anchor="middle" fill="#3D4F39" font-size="14" font-weight="500" font-family="'Playfair Display', serif">Applications</text>
+        </svg>
+
+        <p style="font-size: 0.82rem; color: var(--sage-dark); margin-top: 20px; line-height: 1.7; max-width: 380px;">
+          We don't digitize &mdash; that's well underway. We build the <strong style="color: var(--forest-deep);">intelligence layer</strong>: reasoning banks, memory systems, prediction engines &mdash; already in production.
+        </p>
+      </div>
+    </div>
+
+    <div class="punchline">
+      We bridge ancient knowledge architecture with modern AI. This is our core expertise.
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span class="foot-brand">GRU works. Know how.</span>
+    <span class="foot-page">4 &mdash; 5</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SLIDE 5 — INVITATION
+     ═══════════════════════════════════════ -->
+<section class="slide slide--dark" id="s4">
+
+  <!-- Convergence background -->
+  <div class="bg-svg" style="opacity: 0.03;">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50%" cy="50%" r="250" fill="none" stroke="#FFD45A" stroke-width="0.5" stroke-dasharray="6,12"/>
+      <circle cx="50%" cy="50%" r="180" fill="none" stroke="#FFD45A" stroke-width="0.4" stroke-dasharray="4,10"/>
+      <circle cx="50%" cy="50%" r="110" fill="none" stroke="#FFD45A" stroke-width="0.3" stroke-dasharray="3,8"/>
+    </svg>
+  </div>
+
+  <div class="bg-glow" style="width: 500px; height: 500px; top: 30%; left: 30%; background: radial-gradient(circle, rgba(255,212,90,0.05), transparent 70%);"></div>
+
+  <div class="slide-inner">
+    <div class="label">The Invitation</div>
+    <h2>Your Vision,<br>Our Infrastructure</h2>
+
+    <!-- Three Pillars -->
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" stroke="#FFD45A" stroke-width="1.2"/>
+            <circle cx="24" cy="24" r="10" stroke="#FFD45A" stroke-width="0.8" stroke-dasharray="3,3"/>
+            <circle cx="24" cy="24" r="3.5" fill="#FFD45A" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="pillar-title">Working Engine</div>
+        <div class="pillar-text">Not a concept &mdash; intelligence infrastructure already in production</div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="10" r="3.5" stroke="#4A8C6A" stroke-width="1.2"/>
+            <circle cx="10" cy="34" r="3.5" stroke="#4A8C6A" stroke-width="1.2"/>
+            <circle cx="38" cy="34" r="3.5" stroke="#4A8C6A" stroke-width="1.2"/>
+            <line x1="24" y1="13.5" x2="10" y2="30.5" stroke="#4A8C6A" stroke-width="0.8"/>
+            <line x1="24" y1="13.5" x2="38" y2="30.5" stroke="#4A8C6A" stroke-width="0.8"/>
+            <line x1="13.5" y1="34" x2="34.5" y2="34" stroke="#4A8C6A" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="pillar-title">Partnerships</div>
+        <div class="pillar-text">Digitization partners with 20+ year track records in faithful archiving</div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <path d="M24 6 L38 14 L38 28 Q38 39 24 43 Q10 39 10 28 L10 14 Z" stroke="#AEB5AD" stroke-width="1.2" fill="none"/>
+            <path d="M18 24 L22 28 L30 20" stroke="#FFD45A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="pillar-title">DPIIT Deep Tech</div>
+        <div class="pillar-text">Government support framework ready to activate for Sanskrit AI</div>
+      </div>
+    </div>
+
+    <!-- CTA Box -->
+    <div class="ask-box">
+      <h2>A 30-minute conversation.</h2>
+      <p>
+        The timing is rare: the corpus is funded. AI is recognized as Deep Tech.
+        The tools exist but remain fragmented. What's missing is someone who can
+        <strong>integrate it all into a living platform</strong>.
+      </p>
+      <p style="margin-top: 14px;">
+        We believe we can build that &mdash; around <strong>your vision</strong>.
+      </p>
+
+      <a class="btn-gold" href="mailto:info@gruworks.com">Talk To Us &gt;&gt;</a>
+
+      <div class="contact-line">
+        Nikhil Vallishayee &ensp;&bull;&ensp; GruWorks &ensp;&bull;&ensp; gruworks.com
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span class="foot-brand">GRU works. Know how.</span>
+    <span class="foot-page">5 &mdash; 5</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════ -->
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function go(i) { slides[i].scrollIntoView({ behavior: 'smooth' }); }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const i = [...slides].indexOf(e.target);
+        dots.forEach((d, j) => d.classList.toggle('on', j === i));
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => obs.observe(s));
+
+  document.addEventListener('keydown', e => {
+    const cur = [...dots].findIndex(d => d.classList.contains('on'));
+    if (['ArrowDown','ArrowRight',' '].includes(e.key) && cur < slides.length - 1) { e.preventDefault(); go(cur + 1); }
+    if (['ArrowUp','ArrowLeft'].includes(e.key) && cur > 0) { e.preventDefault(); go(cur - 1); }
+  });
+</script>
+
+</body>
+</html>
