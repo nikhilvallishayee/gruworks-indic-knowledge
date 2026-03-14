@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Excellence Assessment — GruWorks</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+  :root {
+    --forest-deep: #1D2A1A;
+    --forest-dark: #222A29;
+    --forest-mid: #2D3B29;
+    --forest-text: #3D4F39;
+    --forest-accent: #33512D;
+    --gold: #FFD45A;
+    --gold-dim: #C8A63E;
+    --gold-glow: rgba(255, 212, 90, 0.12);
+    --white: #FDFFFD;
+    --cream: #F5F3EE;
+    --sage: #D7DBD6;
+    --sage-dim: #AEB5AD;
+    --sage-dark: #6B766A;
+    --teal: #4A8C6A;
+    --red: #C45E4A;
+    --amber: #D4943A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', 'Avenir', -apple-system, Helvetica, Arial, sans-serif;
+    background: var(--forest-deep);
+    color: var(--sage);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide--dark { background: var(--forest-deep); color: var(--sage); }
+  .slide--mid { background: var(--forest-dark); color: var(--sage); }
+  .slide--light { background: var(--white); color: var(--forest-text); }
+  .slide--cream { background: var(--cream); color: var(--forest-text); }
+
+  .inner { max-width: 1100px; width: 100%; z-index: 2; position: relative; }
+
+  /* Typography */
+  .label {
+    font-size: 0.68rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .slide--light .label, .slide--cream .label { color: var(--forest-accent); }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 4.2rem;
+    font-weight: 400;
+    line-height: 1.08;
+    margin-bottom: 24px;
+  }
+  .slide--dark h1, .slide--mid h1 { color: var(--white); }
+  .slide--light h1, .slide--cream h1 { color: var(--forest-text); }
+  h1 em { font-style: italic; color: var(--gold); }
+  .slide--light h1 em, .slide--cream h1 em { color: var(--forest-accent); }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+  .slide--dark h2, .slide--mid h2 { color: var(--white); }
+  .slide--light h2, .slide--cream h2 { color: var(--forest-text); }
+
+  h3 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .slide--light h3, .slide--cream h3 { color: var(--forest-accent); }
+
+  .sub {
+    font-size: 1.15rem;
+    font-weight: 300;
+    max-width: 580px;
+    line-height: 1.7;
+  }
+  .slide--dark .sub { color: var(--sage-dim); }
+  .slide--light .sub, .slide--cream .sub { color: var(--sage-dark); }
+
+  .punch {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+    margin: 32px 0;
+    max-width: 620px;
+    line-height: 1.6;
+  }
+  .slide--light .punch, .slide--cream .punch { color: var(--forest-accent); border-color: var(--gold-dim); }
+
+  .sep { width: 48px; height: 2px; background: var(--gold); margin-bottom: 28px; }
+  .slide--light .sep, .slide--cream .sep { background: var(--forest-accent); }
+
+  /* Cards & Grids */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2px; }
+  .g5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 2px; }
+  .g23 { display: grid; grid-template-columns: 2fr 3fr; gap: 2px; }
+
+  .card {
+    background: var(--forest-mid);
+    padding: 28px;
+  }
+  .slide--light .card, .slide--cream .card {
+    background: var(--white);
+    border: 1px solid rgba(61,79,57,0.08);
+  }
+
+  .card:first-child { border-radius: 4px 0 0 0; }
+  .card:nth-child(2) { border-radius: 0 4px 0 0; }
+
+  .card-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .slide--light .card-title, .slide--cream .card-title { color: var(--forest-deep); }
+
+  .card-text {
+    font-size: 0.78rem;
+    color: var(--sage-dim);
+    line-height: 1.6;
+  }
+  .slide--light .card-text, .slide--cream .card-text { color: var(--sage-dark); }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+  .tag-gold { background: rgba(255,212,90,0.15); color: var(--gold); }
+  .tag-teal { background: rgba(74,140,106,0.15); color: var(--teal); }
+  .tag-sage { background: rgba(174,181,173,0.12); color: var(--sage-dim); }
+
+  /* Dimension cards */
+  .dim-card {
+    background: var(--forest-mid);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .dim-icon { margin-bottom: 14px; }
+
+  .dim-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .dim-text {
+    font-size: 0.72rem;
+    color: var(--sage-dim);
+    line-height: 1.5;
+  }
+
+  /* Stat row */
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin: 32px 0; }
+  .stat {
+    background: var(--forest-mid);
+    padding: 28px 20px;
+    text-align: center;
+  }
+  .stat-n {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-u { font-size: 0.8rem; color: var(--gold-dim); }
+  .stat-l {
+    font-size: 0.65rem;
+    color: var(--sage-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+  }
+
+  /* Phase timeline */
+  .phases { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 28px 0; }
+
+  .phase {
+    background: var(--forest-mid);
+    padding: 24px 18px;
+    position: relative;
+  }
+
+  .phase-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    opacity: 0.3;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+  }
+
+  .phase-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .phase-days {
+    font-size: 0.65rem;
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .phase-items {
+    list-style: none;
+    font-size: 0.7rem;
+    color: var(--sage-dim);
+    line-height: 1.8;
+  }
+
+  .phase-items li::before {
+    content: '—';
+    margin-right: 6px;
+    color: var(--sage-dark);
+  }
+
+  /* Finding row */
+  .finding-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 3fr;
+    gap: 0;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.8rem;
+    align-items: center;
+  }
+  .slide--light .finding-row, .slide--cream .finding-row { border-color: rgba(0,0,0,0.05); }
+
+  .finding-pct {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .pct-high { color: var(--red); }
+  .pct-med { color: var(--amber); }
+
+  .finding-impact {
+    font-size: 0.75rem;
+    color: var(--sage-dim);
+    padding-left: 16px;
+  }
+
+  /* Comparison block */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .compare-before {
+    font-size: 0.82rem;
+    color: var(--sage-dim);
+    text-align: right;
+    padding-right: 16px;
+  }
+  .compare-arrow { color: var(--gold); font-size: 1.1rem; padding: 0 8px; }
+  .compare-after {
+    font-size: 0.82rem;
+    color: var(--gold);
+    font-weight: 500;
+    padding-left: 16px;
+  }
+
+  /* Credential */
+  .cred { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px; }
+  .cred-line { width: 20px; height: 2px; background: var(--gold); margin-top: 10px; flex-shrink: 0; }
+  .slide--light .cred-line, .slide--cream .cred-line { background: var(--forest-accent); }
+  .cred-t { font-size: 0.85rem; line-height: 1.55; }
+  .cred-t strong { color: var(--white); }
+  .slide--light .cred-t strong, .slide--cream .cred-t strong { color: var(--forest-deep); }
+
+  /* Pricing */
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 28px 0; }
+
+  .price-card {
+    background: var(--forest-mid);
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .price-card--featured {
+    border-top: 3px solid var(--gold);
+  }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .price-unit {
+    font-size: 0.75rem;
+    color: var(--sage-dim);
+    margin-bottom: 16px;
+  }
+
+  .price-list {
+    list-style: none;
+    font-size: 0.78rem;
+    color: var(--sage);
+    line-height: 2;
+  }
+
+  .price-list li::before {
+    content: '✓';
+    margin-right: 8px;
+    color: var(--teal);
+  }
+
+  /* CTA */
+  .ask-box {
+    background: var(--forest-mid);
+    border-top: 3px solid var(--gold);
+    padding: 44px;
+    text-align: center;
+    margin-top: 28px;
+    border-radius: 0 0 4px 4px;
+  }
+  .ask-box h2 { font-size: 2rem; margin-bottom: 14px; }
+  .ask-box p { font-size: 0.9rem; max-width: 560px; margin: 0 auto; line-height: 1.7; }
+  .ask-box strong { color: var(--gold); }
+
+  .btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--forest-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 24px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn:hover { background: var(--gold-dim); transform: translateY(-1px); }
+
+  .contact { margin-top: 18px; font-size: 0.75rem; color: var(--sage-dim); }
+
+  /* Footer */
+  .foot {
+    position: absolute;
+    bottom: 24px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+  }
+  .slide--light .foot, .slide--cream .foot { color: rgba(0,0,0,0.12); }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    right: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: none; cursor: pointer;
+    transition: all 0.3s; padding: 0;
+  }
+  .dot.on { background: var(--gold); box-shadow: 0 0 8px rgba(255,212,90,0.3); width: 9px; height: 9px; }
+  .dot:hover { background: rgba(255,212,90,0.4); }
+
+  /* Background */
+  .bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .slide { padding: 40px 24px; }
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 1.7rem; }
+    .g2,.g3,.g4,.g5,.g23,.stats,.phases,.price-grid { grid-template-columns: 1fr; }
+    .foot { left: 24px; right: 24px; }
+    .nav { display: none; }
+    .compare { grid-template-columns: 1fr; gap: 4px; }
+    .compare-before { text-align: left; padding: 0; }
+    .compare-after { padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <button class="dot on" onclick="go(0)"></button>
+  <button class="dot" onclick="go(1)"></button>
+  <button class="dot" onclick="go(2)"></button>
+  <button class="dot" onclick="go(3)"></button>
+  <button class="dot" onclick="go(4)"></button>
+  <button class="dot" onclick="go(5)"></button>
+  <button class="dot" onclick="go(6)"></button>
+  <button class="dot" onclick="go(7)"></button>
+</nav>
+
+<!-- ══════════ SLIDE 1: TITLE ══════════ -->
+<section class="slide slide--dark" id="s0">
+  <div class="bg-glow" style="width:500px;height:500px;top:20%;right:-5%;background:radial-gradient(circle,rgba(255,212,90,0.05),transparent 70%)"></div>
+  <div class="inner" style="text-align:center;display:flex;flex-direction:column;align-items:center;">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:28px;opacity:0.5;">
+      <circle cx="24" cy="24" r="20" stroke="#FFD45A" stroke-width="1"/>
+      <circle cx="24" cy="24" r="13" stroke="#FFD45A" stroke-width="0.6" stroke-dasharray="3,3"/>
+      <circle cx="24" cy="24" r="6" stroke="#FFD45A" stroke-width="0.4"/>
+      <circle cx="24" cy="24" r="2" fill="#FFD45A" opacity="0.5"/>
+    </svg>
+    <div class="label">Confidential &mdash; March 2026</div>
+    <h1 style="font-size:4.5rem;">Engineering<br><em>Excellence</em><br>Assessment</h1>
+    <div class="sep" style="margin:20px auto 24px"></div>
+    <p class="sub" style="text-align:center;">
+      A 15-30 day deep tech intervention for<br>startups and enterprises
+    </p>
+    <p style="margin-top:52px;font-size:0.85rem;color:var(--sage-dim);">
+      <strong style="color:var(--white);font-weight:500;">Nikhil Vallishayee</strong>
+      &ensp;&bull;&ensp; GruWorks
+    </p>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>1 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 2: THE PROBLEM ══════════ -->
+<section class="slide slide--mid" id="s1">
+  <div class="inner">
+    <div class="label">The Problem</div>
+    <h2>Tech Is a Black Box</h2>
+    <p class="sub" style="margin-bottom:28px;">Your dev team ships. Revenue grows. But you can't tell good from dangerous.</p>
+
+    <div class="g2" style="margin-bottom:24px;">
+      <div class="card" style="border-radius:4px 0 0 4px;">
+        <h3>What Founders Hear</h3>
+        <div class="compare"><div class="compare-before">"Everything is on track"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">No way to verify</div></div>
+        <div class="compare"><div class="compare-before">"We need to hire more"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">Is that true? Or is it process?</div></div>
+        <div class="compare"><div class="compare-before">"The code is fine"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">40% test coverage says otherwise</div></div>
+        <div class="compare"><div class="compare-before">"We should rewrite"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">Based on what evidence?</div></div>
+      </div>
+      <div class="card" style="border-radius:0 4px 4px 0;border-left:3px solid var(--gold);">
+        <h3>What You Need</h3>
+        <div style="padding:16px 0;">
+          <div style="font-size:0.85rem;color:var(--sage);line-height:2;">
+            <div><strong style="color:var(--gold);">Independent.</strong> Not from your team, not from a vendor.</div>
+            <div><strong style="color:var(--gold);">Structured.</strong> Same dimensions every time. Comparable.</div>
+            <div><strong style="color:var(--gold);">Evidence-based.</strong> Data, not opinions.</div>
+            <div><strong style="color:var(--gold);">Actionable.</strong> A clear picture. A clear path forward.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="punch">You're about to raise, scale, or pivot. You need to know: is the foundation solid?</div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>2 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 3: 5 DIMENSIONS ══════════ -->
+<section class="slide slide--dark" id="s2">
+  <div class="bg-glow" style="width:600px;height:600px;bottom:-20%;left:-10%;background:radial-gradient(circle,rgba(74,140,106,0.05),transparent 70%)"></div>
+  <div class="inner">
+    <div class="label">The Framework</div>
+    <h2>5 Dimensions of Excellence</h2>
+    <p class="sub" style="margin-bottom:32px;">Every dimension scored independently. Evidence-backed. Comparable across time.</p>
+
+    <div class="g5" style="margin-bottom:24px;">
+      <div class="dim-card" style="border-radius:4px 0 0 4px;">
+        <div class="dim-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="8" width="32" height="32" rx="3" stroke="#FFD45A" stroke-width="1.2"/>
+            <line x1="16" y1="18" x2="32" y2="18" stroke="#FFD45A" stroke-width="0.8"/>
+            <line x1="16" y1="24" x2="28" y2="24" stroke="#FFD45A" stroke-width="0.8"/>
+            <line x1="16" y1="30" x2="24" y2="30" stroke="#FFD45A" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="dim-title">Code<br>Quality</div>
+        <div class="dim-text">Complexity, duplication, coverage, dependencies, security</div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <rect x="6" y="22" width="10" height="18" rx="2" stroke="#4A8C6A" stroke-width="1.2"/>
+            <rect x="19" y="14" width="10" height="26" rx="2" stroke="#4A8C6A" stroke-width="1.2"/>
+            <rect x="32" y="8" width="10" height="32" rx="2" stroke="#4A8C6A" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="dim-title">System<br>Quality</div>
+        <div class="dim-text">Architecture, performance, reliability, scalability, observability</div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="14" r="6" stroke="#AEB5AD" stroke-width="1.2"/>
+            <circle cx="12" cy="34" r="5" stroke="#AEB5AD" stroke-width="1"/>
+            <circle cx="36" cy="34" r="5" stroke="#AEB5AD" stroke-width="1"/>
+            <line x1="24" y1="20" x2="12" y2="29" stroke="#AEB5AD" stroke-width="0.8"/>
+            <line x1="24" y1="20" x2="36" y2="29" stroke="#AEB5AD" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="dim-title">Team<br>Health</div>
+        <div class="dim-text">Velocity, bus factor, ownership, review quality, skills</div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <circle cx="10" cy="24" r="4" stroke="#C8A63E" stroke-width="1"/>
+            <circle cx="24" cy="24" r="4" stroke="#C8A63E" stroke-width="1"/>
+            <circle cx="38" cy="24" r="4" stroke="#C8A63E" stroke-width="1"/>
+            <line x1="14" y1="24" x2="20" y2="24" stroke="#C8A63E" stroke-width="1"/>
+            <line x1="28" y1="24" x2="34" y2="24" stroke="#C8A63E" stroke-width="1"/>
+            <path d="M6 14 L42 14" stroke="#C8A63E" stroke-width="0.6" stroke-dasharray="3,3"/>
+            <path d="M6 34 L42 34" stroke="#C8A63E" stroke-width="0.6" stroke-dasharray="3,3"/>
+          </svg>
+        </div>
+        <div class="dim-title">Workflow<br>Maturity</div>
+        <div class="dim-text">CI/CD, DORA metrics, branching, release, incidents</div>
+      </div>
+
+      <div class="dim-card" style="border-radius:0 4px 4px 0;">
+        <div class="dim-icon">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+            <path d="M24 8 L24 40" stroke="#FFD45A" stroke-width="1.2"/>
+            <path d="M18 16 L24 8 L30 16" stroke="#FFD45A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="24" cy="40" r="3" stroke="#FFD45A" stroke-width="1"/>
+            <path d="M14 30 Q24 22 34 30" stroke="#FFD45A" stroke-width="0.8" fill="none" stroke-dasharray="3,3"/>
+          </svg>
+        </div>
+        <div class="dim-title">Growth<br>Readiness</div>
+        <div class="dim-text">10x load, hiring, tech debt trajectory, compliance</div>
+      </div>
+    </div>
+
+    <div class="punch">Same framework. Every time. Comparable across teams, quarters, and companies.</div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>3 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 4: WHAT WE FIND ══════════ -->
+<section class="slide slide--cream" id="s3">
+  <div class="inner">
+    <div class="label">Typical Findings</div>
+    <h2>What We Usually Discover</h2>
+    <p class="sub" style="margin-bottom:28px;">Based on assessments of 15-30 person engineering teams at Indian startups.</p>
+
+    <div style="margin-bottom:28px;">
+      <div class="finding-row" style="border-bottom:2px solid rgba(0,0,0,0.08);font-weight:600;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-dark);">
+        <div>Finding</div><div style="text-align:center">Frequency</div><div style="padding-left:16px">Impact</div>
+      </div>
+      <div class="finding-row">
+        <div>Test coverage below 40%</div>
+        <div class="finding-pct pct-high">80%</div>
+        <div class="finding-impact">Regressions, fear of refactoring</div>
+      </div>
+      <div class="finding-row">
+        <div>No CODEOWNERS or knowledge mapping</div>
+        <div class="finding-pct pct-high">90%</div>
+        <div class="finding-impact">Bus factor of 1 for critical modules</div>
+      </div>
+      <div class="finding-row">
+        <div>CI pipeline takes 20+ minutes</div>
+        <div class="finding-pct pct-med">70%</div>
+        <div class="finding-impact">Dev velocity drops 30-40%</div>
+      </div>
+      <div class="finding-row">
+        <div>No structured incident response</div>
+        <div class="finding-pct pct-high">85%</div>
+        <div class="finding-impact">MTTR 3-5x longer than necessary</div>
+      </div>
+      <div class="finding-row">
+        <div>Senior devs doing junior work</div>
+        <div class="finding-pct pct-med">75%</div>
+        <div class="finding-impact">Salary inefficiency + burnout</div>
+      </div>
+      <div class="finding-row">
+        <div>Tech debt growing faster than features</div>
+        <div class="finding-pct pct-med">60%</div>
+        <div class="finding-impact">6-12 month scaling wall</div>
+      </div>
+      <div class="finding-row">
+        <div>Security basics missing (OWASP Top 5)</div>
+        <div class="finding-pct pct-high">70%</div>
+        <div class="finding-impact">One breach = existential risk</div>
+      </div>
+      <div class="finding-row" style="border-bottom:none;">
+        <div>No observability beyond basic logging</div>
+        <div class="finding-pct pct-high">80%</div>
+        <div class="finding-impact">Debugging in production = guesswork</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>4 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 5: PROCESS ══════════ -->
+<section class="slide slide--mid" id="s4">
+  <div class="inner">
+    <div class="label">The Process</div>
+    <h2>5 Phases. 30 Days.</h2>
+
+    <div class="phases">
+      <div class="phase" style="border-radius:4px 0 0 4px;">
+        <div class="phase-num">1</div>
+        <div class="phase-title">Discovery</div>
+        <div class="phase-days">Days 1-3</div>
+        <ul class="phase-items">
+          <li>Founder + CTO kick-off</li>
+          <li>Access setup (Git, CI, APM)</li>
+          <li>1:1 with each EM</li>
+          <li>Scope confirmation</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">2</div>
+        <div class="phase-title">Automated</div>
+        <div class="phase-days">Days 3-8</div>
+        <ul class="phase-items">
+          <li>Git commit intelligence</li>
+          <li>Static code analysis</li>
+          <li>Dependency + CVE audit</li>
+          <li>CI/CD pipeline audit</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">3</div>
+        <div class="phase-title">Human Intel</div>
+        <div class="phase-days">Days 8-18</div>
+        <ul class="phase-items">
+          <li>Code walkthroughs</li>
+          <li>1:1 dev interviews</li>
+          <li>Sprint observation</li>
+          <li>Architecture review</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num">4</div>
+        <div class="phase-title">Synthesis</div>
+        <div class="phase-days">Days 18-25</div>
+        <ul class="phase-items">
+          <li>5 dimension scorecards</li>
+          <li>Risk register</li>
+          <li>Improvement roadmap</li>
+          <li>Executive report</li>
+        </ul>
+      </div>
+
+      <div class="phase" style="border-radius:0 4px 4px 0;">
+        <div class="phase-num">5</div>
+        <div class="phase-title">Handover</div>
+        <div class="phase-days">Days 25-30</div>
+        <ul class="phase-items">
+          <li>Founder presentation</li>
+          <li>Team presentation</li>
+          <li>EM working session</li>
+          <li>30-day check-in</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="punch">Automated tools find the data. Human intelligence finds the meaning.</div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>5 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 6: WHAT YOU GET ══════════ -->
+<section class="slide slide--dark" id="s5">
+  <div class="inner">
+    <div class="label">The Outcome</div>
+    <h2>From Black Box to<br>Clear Picture</h2>
+
+    <div style="margin:28px 0;">
+      <div class="compare"><div class="compare-before">"Tech is a black box"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">5-dimension scorecard with evidence</div></div>
+      <div class="compare"><div class="compare-before">"I think we're okay"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">Risk register: RED / AMBER / GREEN</div></div>
+      <div class="compare"><div class="compare-before">"We need to hire more"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">Specific skill gaps + hiring plan</div></div>
+      <div class="compare"><div class="compare-before">"Should we rewrite?"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">Quantified tech debt + trajectory</div></div>
+      <div class="compare"><div class="compare-before">"Are we secure?"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">OWASP audit + remediation plan</div></div>
+      <div class="compare" style="border-bottom:none;"><div class="compare-before">"Can we scale?"</div><div class="compare-arrow">&rarr;</div><div class="compare-after">Load test results + architecture review</div></div>
+    </div>
+
+    <h3 style="margin-top:32px;">Deliverables</h3>
+    <div class="g3">
+      <div class="card" style="border-radius:4px 0 0 4px;">
+        <span class="card-tag tag-gold">For Founders</span>
+        <div class="card-title">Executive Summary</div>
+        <div class="card-text">2-page overview. What's working. What's at risk. What to do first. No jargon.</div>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-teal">For CTO & EMs</span>
+        <div class="card-title">Full Assessment Report</div>
+        <div class="card-text">30-50 pages. Scorecards, risk register, improvement roadmap, raw data package.</div>
+      </div>
+      <div class="card" style="border-radius:0 4px 4px 0;">
+        <span class="card-tag tag-sage">For Dev Team</span>
+        <div class="card-title">Quick Wins Checklist</div>
+        <div class="card-text">Improvements implementable in 7 days. Immediate velocity and quality gains.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>6 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 7: WHO & WHY ══════════ -->
+<section class="slide slide--light" id="s6">
+  <div class="inner">
+    <div class="label">Who We Are</div>
+    <h2>Why This Team</h2>
+
+    <div class="g2" style="gap:48px;margin-top:24px;">
+      <div>
+        <h3>Nikhil Vallishayee — Founder</h3>
+        <div class="cred"><div class="cred-line"></div><div class="cred-t"><strong>ThoughtWorks</strong> &mdash; XP, continuous delivery, agile coaching at enterprise scale</div></div>
+        <div class="cred"><div class="cred-line"></div><div class="cred-t"><strong>Swiggy aSDE Program</strong> &mdash; Assessed, trained, promoted 150+ engineers from Tier II/III cities</div></div>
+        <div class="cred"><div class="cred-line"></div><div class="cred-t"><strong>Vedantu, Navi</strong> &mdash; Deep tech product across India's top startups</div></div>
+        <div class="cred"><div class="cred-line"></div><div class="cred-t"><strong>15+ years</strong> building and evaluating engineering teams at scale</div></div>
+        <div class="cred"><div class="cred-line"></div><div class="cred-t"><strong>DPIIT-recognized</strong> AI startup with working assessment infrastructure</div></div>
+      </div>
+
+      <div>
+        <h3>AI-Native Tooling</h3>
+        <div class="card" style="background:var(--cream);margin-bottom:12px;border-radius:4px;">
+          <div class="card-title">Git Intelligence Engine</div>
+          <div class="card-text" style="color:var(--sage-dark);">Automated commit pattern analysis, contributor heatmaps, workflow bottleneck detection, PR quality scoring</div>
+        </div>
+        <div class="card" style="background:var(--cream);margin-bottom:12px;border-radius:4px;">
+          <div class="card-title">Multi-Agent Assessment</div>
+          <div class="card-text" style="color:var(--sage-dark);">Concurrent analysis across repos, CI/CD pipelines, project management tools — 10x faster than manual review</div>
+        </div>
+        <div class="card" style="background:var(--cream);border-radius:4px;">
+          <div class="card-title">Structured Scoring Framework</div>
+          <div class="card-text" style="color:var(--sage-dark);">Same dimensions, same metrics, comparable across teams, quarters, and companies. Data-driven, not opinion-driven.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>7 &mdash; 8</span></div>
+</section>
+
+<!-- ══════════ SLIDE 8: PRICING & CTA ══════════ -->
+<section class="slide slide--dark" id="s7">
+  <div class="bg-glow" style="width:500px;height:500px;top:30%;left:30%;background:radial-gradient(circle,rgba(255,212,90,0.04),transparent 70%)"></div>
+  <div class="inner">
+    <div class="label">Investment</div>
+    <h2>Startup or Enterprise</h2>
+
+    <div class="price-grid">
+      <div class="price-card price-card--featured" style="border-radius:4px 0 0 4px;">
+        <span class="card-tag tag-gold">Startup</span>
+        <div class="price-amount">Rs. 10L</div>
+        <div class="price-unit">15-30 days &bull; up to 20 people</div>
+        <ul class="price-list">
+          <li>Full 5-dimension assessment</li>
+          <li>All automated analysis + tooling</li>
+          <li>Team interviews (up to 20)</li>
+          <li>Executive + full report</li>
+          <li>Improvement roadmap</li>
+          <li>Founder + team presentations</li>
+          <li>30-day check-in call</li>
+        </ul>
+      </div>
+
+      <div class="price-card" style="border-radius:0 4px 4px 0;">
+        <span class="card-tag tag-teal">Enterprise</span>
+        <div class="price-amount">Rs. 15-25L</div>
+        <div class="price-unit">30-45 days &bull; up to 50+ people</div>
+        <ul class="price-list">
+          <li>Everything in Startup tier</li>
+          <li>Multiple product lines / repos (up to 10)</li>
+          <li>Compliance audit (SOC2/GDPR)</li>
+          <li>Security penetration testing</li>
+          <li>2 full sprints embedded observation</li>
+          <li>90-day support (monthly check-ins)</li>
+          <li>Hiring support (JDs + interview design)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ask-box">
+      <h2 style="color:var(--white);">Start with a conversation.</h2>
+      <p>50% upfront, 50% on delivery. No lock-in. One-time assessment.<br>Optional: quarterly reassessment at 40% of original fee.</p>
+      <a class="btn" href="mailto:info@gruworks.com">Talk To Us &gt;&gt;</a>
+      <div class="contact">Nikhil Vallishayee &ensp;&bull;&ensp; GruWorks &ensp;&bull;&ensp; gruworks.com</div>
+    </div>
+  </div>
+  <div class="foot"><span>GRU works. Know how.</span><span>8 &mdash; 8</span></div>
+</section>
+
+<script>
+  const S=document.querySelectorAll('.slide'),D=document.querySelectorAll('.dot');
+  function go(i){S[i].scrollIntoView({behavior:'smooth'})}
+  const O=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){const i=[...S].indexOf(x.target);D.forEach((d,j)=>d.classList.toggle('on',j===i))}})},{threshold:0.5});
+  S.forEach(s=>O.observe(s));
+  document.addEventListener('keydown',e=>{const c=[...D].findIndex(d=>d.classList.contains('on'));if(['ArrowDown','ArrowRight',' '].includes(e.key)&&c<S.length-1){e.preventDefault();go(c+1)}if(['ArrowUp','ArrowLeft'].includes(e.key)&&c>0){e.preventDefault();go(c-1)}});
+</script>
+</body>
+</html>
