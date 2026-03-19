@@ -435,11 +435,11 @@ function SearchTab() {
             React.createElement('button', {
               onClick: () => setExpandedSimilar(s => ({ ...s, [r.verse_id]: !s[r.verse_id] })),
               className: 'text-xs text-g-7 hover:text-g-3 transition-colors',
-            }, expandedSimilar[r.verse_id] ? 'Hide similar' : 'Similar verses'),
+            }, expandedSimilar[r.verse_id] ? 'Hide similar' : 'Similar verses ▸'),
           ),
-          // Similar verses expansion (mock)
+          // Similar verses ▸ expansion (mock)
           expandedSimilar[r.verse_id] && React.createElement('div', { className: 'mt-3 pt-3 border-t border-g-e' },
-            React.createElement('p', { className: 'text-xs text-g-9 mb-2' }, 'Similar verses (by embedding similarity):'),
+            React.createElement('p', { className: 'text-xs text-g-9 mb-2' }, 'Similar verses ▸ (by embedding similarity):'),
             React.createElement('div', { className: 'space-y-2' },
               MOCK_SEARCH_RESULTS.filter(s => s.verse_id !== r.verse_id).slice(0, 2).map(s =>
                 React.createElement('div', { key: s.verse_id, className: 'pl-3 border-l border-g-d' },
